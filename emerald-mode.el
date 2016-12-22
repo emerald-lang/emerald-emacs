@@ -131,7 +131,6 @@
   "Major mode for editing Emerald files"
   (set-syntax-table emerald-mode-syntax-table)
   (setq-local font-lock-multiline t)
-  (setq-local indent-line-function 'emerald-indent-line)
   (setq-local parse-sexp-lookup-properties t)
   (setq-local electric-indent-chars '(?| ?+))
   (setq-local comment-start "*")
