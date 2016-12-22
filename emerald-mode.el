@@ -38,12 +38,6 @@
              "video" "xmp") 'words))
   "Regex for html tags.")
 
-(defconst emerald-selfclosing-tags-re
-  (concat "^ *"
-          (regexp-opt
-           '("meta" "img" "area" "base" "br" "col" "command" "embed"
-             "hr" "input" "link" "param" "source" "track" "wbr") t)))
-
 (defconst emerald-embedded-re "^ *:[a-z0-9_-]+"
   "Regexp matching filter and embedded elements.")
 
