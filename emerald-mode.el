@@ -72,6 +72,9 @@
     ("^ *\\+\\([a-z0-9_-]+\\)"
      0 font-lock-builtin-face)
 
+    ;; Variable templating
+    ("\\(|[^|]*|\\)" 1 font-lock-builtin-face prepend)
+
     ;; Single line comments
     ("\\(\*[^\n]*\n\\)"
      1 font-lock-comment-face append)
