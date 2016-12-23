@@ -73,10 +73,6 @@
     ("\\(\*[^\n]*\n\\)"
      1 font-lock-comment-face append)
 
-    (,(emerald-nested-re "\\(:[a-z0-9_]+\\)")
-     (0 font-lock-preprocessor-face prepend))
-    ("each\\s-+\\w*\\s-+\\(in\\)" (1 font-lock-keyword-face))
-
     ;; Single quote string
     ("[^a-z]\\('[^'\n]*'\\)"
      1 font-lock-string-face append)
@@ -96,11 +92,17 @@
     ("[#!]\\({[^}]+}\\|\\[[^]]+\\]\\)"
      (0 font-lock-preprocessor-face prepend))
 
-    ;; include statements
-    ("\\<\\(include\\)\\(:[^ \t]+\\|\\s-+\\)\\([^\n]+\\)\n"
+    ;; each rule
+    ("\\(each\\)\\(\\s-+\\w*\\s-+\\)\\(as\\)\\([^\n]+\\)\n"
+     (1 font-lock-type-face)
+     (2 font-lock-builtin-face)
+     (3 font-lock-type-face)
+     (4 font-lock-builtin-face))
+
+    ;; include rule
+    ("\\<\\(include\\)\\([^\n]+\\)\n"
      (1 font-lock-keyword-face)
-     (2 font-lock-preprocessor-face)
-     (3 font-lock-string-face))
+     (2 font-lock-string-face))
 
     ;; attributes
     ("[a-z0-9-_]("
