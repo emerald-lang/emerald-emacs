@@ -54,20 +54,17 @@
   `(("^\\s-*[[:alnum:]_#.]"
      ("\\(#[[:alnum:]_-]+\\)(?"
       (beginning-of-line) nil
-      (1 font-lock-keyword-face append))
+      (1 font-lock-type-face append))
      ("\\(\\.[a-z0-9_-]+\\)(?"
       (beginning-of-line) nil
-      (1 font-lock-variable-name-face append))
+      (1 font-lock-builtin-face append))
      ("[[:alnum:]_)]\\(?::\\s-+[^ ]+\\|\\s-+\\)\\([^\n]*\\)"
       (beginning-of-line) nil
       (1 nil t)))
     (,emerald-tags-re (1 font-lock-function-name-face))
 
-    ("^ *\\+\\([a-z0-9_-]+\\)"
-     0 font-lock-builtin-face)
-
     ;; Variable templating
-    ("\\(|[^|]*|\\)" 1 font-lock-builtin-face prepend)
+    ("\\(|[^|]*|\\)" 1 font-lock-variable-name-face prepend)
 
     ;; Single line comments
     ("\\(\*[^\n]*\n\\)"
@@ -88,16 +85,12 @@
     ;; Plain text inline
     ("^ *|.*" (0 font-lock-string-face t))
 
-    ;; interpolation
-    ("[#!]\\({[^}]+}\\|\\[[^]]+\\]\\)"
-     (0 font-lock-preprocessor-face prepend))
-
     ;; each rule
     ("\\(each\\)\\(\\s-+\\w*\\s-+\\)\\(as\\)\\([^\n]+\\)\n"
-     (1 font-lock-type-face)
-     (2 font-lock-builtin-face)
-     (3 font-lock-type-face)
-     (4 font-lock-builtin-face))
+     (1 font-lock-keyword-face)
+     (2 font-lock-variable-name-face)
+     (3 font-lock-keyword-face)
+     (4 font-lock-variable-name-face))
 
     ;; include rule
     ("\\<\\(include\\)\\([^\n]+\\)\n"
