@@ -25,27 +25,18 @@
              "audio" "b" "base" "basefont" "bdo" "big" "blockquote" "body" "br"
              "button" "canvas" "caption" "center" "cite" "code" "col" "colgroup"
              "command" "datalist" "dd" "del" "details" "dialog" "dfn" "dir"
-             "div" "dl" "dt" "em" "embed" "fieldset" "figure" "font" "footer"
-             "form" "frame" "frameset" "h1" "h2" "h3" "h4" "h5" "h6" "head"
-             "header" "hgroup" "hr" "html" "i" "iframe" "img" "images" "input"
-             "ins" "keygen" "kbd" "label" "legend" "li" "link" "map" "main"
-             "mark" "menu" "meta" "metas" "meter" "nav" "noframes" "noscript"
-             "object" "ol" "optgroup" "option" "output" "p" "param" "pre"
-             "progress" "q" "rp" "rt" "ruby" "s" "samp" "script" "scripts"
+             "div" "dl" "dt" "em" "embed" "fieldset" "figcaption" "figure"
+             "font" "footer" "form" "frame" "frameset" "h1" "h2" "h3" "h4" "h5"
+             "h6" "head" "header" "hgroup" "hr" "html" "i" "iframe" "img"
+             "images" "input" "ins" "keygen" "kbd" "label" "legend" "li" "link"
+             "map" "main" "mark" "menu" "meta" "metas" "meter" "nav" "noframes"
+             "noscript" "object" "ol" "optgroup" "option" "output" "p" "param"
+             "pre" "progress" "q" "rp" "rt" "ruby" "s" "samp" "script" "scripts"
              "section" "select" "small" "source" "span" "strike" "strong"
              "style" "styles" "sub" "sup" "table" "tbody" "td" "textarea"
              "tfoot" "th" "thead" "time" "title" "tr" "tt" "u" "ul" "var"
              "video" "xmp") 'words))
   "Regex for html tags.")
-
-(defconst emerald-embedded-re "^ *:[a-z0-9_-]+"
-  "Regexp matching filter and embedded elements.")
-
-(defconst emerald-comment-re "^ *\*"
-  "Regexp matching comment lines.")
-
-(defconst emerald-tag-declaration-char-re "[-a-zA-Z0-9_.#+]"
-  "Regexp used to match a character in a tag declaration")
 
 (defun emerald-nested-re (re)
   (concat "^\\( *\\)" re "\\(\\(\n\\(?:\\1 +[^\n]*\\)?\\)*\\)"))
@@ -95,13 +86,7 @@
     ;; include rule
     ("\\<\\(include\\)\\([^\n]+\\)\n"
      (1 font-lock-keyword-face)
-     (2 font-lock-string-face))
-
-    ;; attributes
-    ("[a-z0-9-_]("
-     ("\\(?:(\\|,?\\s-*\\)\\([[:alnum:]_-]+\\)\\(\\s-*=\\s-*\\('[^']+'\\|\"[^\"]+\"\\)\\)?"
-      (backward-char) (forward-char)
-      (1 font-lock-constant-face)))))
+     (2 font-lock-string-face))))
 
 (defvar emerald-mode-syntax-table
   (let ((table (make-syntax-table)))
