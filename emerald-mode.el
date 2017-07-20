@@ -1,22 +1,43 @@
-;;
+;;; emerald-mode.el --- Emerald Major Mode
+
+;; Copyright (C) 2016-2017 Andrew Robert McBurney
+
+;; Author: Andrew Robert McBurney <andrewrobertmcburney@gmail.com>
+;; Maintainer: Andrew Robert McBurney <andrewrobertmcburney@gmail.com>
+;; Created: 2016-12-19
+;; Keywords: style
+
+;; URL: https://github.com/emerald-lang/emerald-emacs
+;; Compatibility: only tested with Spacemacs (Emacs 25.0)
+;; Version: 0.0.1
+;; Last-Updated: 2017-07-13
+
+;;; License: GPLv3
+
+;;; Commentary:
+
 ;; Emerald Language Syntax Highlighting
 ;; Influenced by slim-mode and jade-mode
-;;
+
+;;; Code:
 
 (eval-when-compile
   (defvar font-lock-beg)
   (defvar font-lock-end)
   (require 'cl-lib))
 
+
 (defgroup emerald nil
   "Support for the Emerald language-agnostic templating engine."
   :group 'languages
   :prefix "emerald-")
 
+
 (defcustom emerald-mode-hook nil
   "Hook run when entering Emerald mode."
   :type 'hook
   :group 'emerald)
+
 
 (defconst emerald-tags-re
   (concat "\\(?:^\\s-*\\|:\\s-+\\)"
@@ -38,8 +59,11 @@
              "video" "xmp") 'words))
   "Regex for html tags.")
 
+
 (defun emerald-nested-re (re)
+  "Regex for nested emerald code. @param: RE."
   (concat "^\\( *\\)" re "\\(\\(\n\\(?:\\1 +[^\n]*\\)?\\)*\\)"))
+
 
 (defconst emerald-font-lock-keywords
   `(("^\\s-*[[:alnum:]_#.]"
@@ -69,24 +93,27 @@
     ("\\(\"[^\"]*\"\\)"
      1 font-lock-string-face append)
 
-    ;; plain text block
+    ;; Plain text block
     (,(emerald-nested-re "[\\.#+a-z][^ \t]*\\(?:(.+)\\)?\\(\\.\\)")
      (3 font-lock-string-face t))
 
     ;; Plain text inline
     ("^ *|.*" (0 font-lock-string-face t))
 
-    ;; each rule
-    ("\\(each\\)\\(\\s-+\\w*\\s-+\\)\\(as\\)\\([^\n]+\\)\n"
-     (1 font-lock-keyword-face)
-     (2 font-lock-variable-name-face)
-     (3 font-lock-keyword-face)
-     (4 font-lock-variable-name-face))
+    ;; (given, unless, with) simple rule
+    ("\\(given\\|unless\\|with\\)\\([^\n]+\\)\n"
+     (1 font-lock-keyword-face))
 
-    ;; include rule
+    ;; Each rule
+    ("\\(each\\)\\(\\s-+\\(\\w\\|\\.\\)*\\s-+\\)\\(as\\)\\([^\n]+\\)\n"
+     (1 font-lock-keyword-face)
+     (4 font-lock-keyword-face))
+
+    ;; Include rule
     ("\\<\\(include\\)\\([^\n]+\\)\n"
      (1 font-lock-keyword-face)
      (2 font-lock-string-face))))
+
 
 (defvar emerald-mode-syntax-table
   (let ((table (make-syntax-table)))
@@ -101,8 +128,10 @@
     table)
   "Syntax table in use in emerald-mode buffers.")
 
+
 (defalias 'emerald-parent-mode
   (if (fboundp 'prog-mode) 'prog-mode 'fundamental-mode))
+
 
 (define-derived-mode emerald-mode emerald-parent-mode "Emerald"
   "Major mode for editing Emerald files"
@@ -115,6 +144,8 @@
   (setq-local indent-tabs-mode nil)
   (setq font-lock-defaults '((emerald-font-lock-keywords) nil t)))
 
-(add-to-list 'auto-mode-alist '("\\.\\(emr\\|emerald\\)\\'" . emerald-mode))
 
+(add-to-list 'auto-mode-alist '("\\.\\(emr\\|emerald\\)\\'" . emerald-mode))
 (provide 'emerald-mode)
+
+;;; emerald-mode.el ends here
